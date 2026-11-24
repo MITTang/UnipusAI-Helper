@@ -1,0 +1,29 @@
+# 敏感配置（含账号密码与 API Key，绝不提交）
+config.json
+config.json.bak*
+电信key.txt
+
+# 运行日志与调试产物
+logs/
+*.log
+_launch_test*
+_t_*.py
+
+# Python 环境与缓存
+.venv/
+__pycache__/
+*.pyc
+.idea/
+build/
+dist/
+release/
+net10.0-windows/
+
+# 大体积二进制与模型（超过 GitHub 单文件限制）
+ffmpeg/
+whisper_model/
+*.zip
+*.rar
+
+# 第三方工具解包分析目录（不入库）
+analyze_tools/

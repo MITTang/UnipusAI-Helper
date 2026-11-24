@@ -1,0 +1,59 @@
+请帮我部署 UnipusAI-Helper 项目（U校园AI版刷课工具，Python 桌面程序）。
+
+【前置准备】
+1. 我已把项目压缩包解压到 <解压目录>\UnipusAI-Helper-main，里面已包含：
+   - 全部源码（UnipusAI_Helper.py 主程序、config_editor.py 配置编辑器、EnvironmentChecker.py 环境检查、AudioRecognizer.py 音频识别等）
+   - requirements.txt 依赖清单
+   - whisper_model\base.pt（Whisper 语音识别模型，已预下载，不要联网重新下载）
+   - ffmpeg\bin\（内含 ffmpeg.exe 和 ffprobe.exe，已解压可运行）
+   - 部署说明.txt、config.example.json（配置模板）
+2. 我的电脑是 Windows 10/11，需要你检查 Python 环境。
+
+【请按以下步骤执行】
+第 1 步：检查 Python
+- 运行 python --version 或 py --version，确认版本是 3.10 及以上。
+- 若未安装或版本过低：下载安装 Python 3.10~3.13（https://www.python.org/downloads/），安装时勾选 "Add Python to PATH"，装完重开终端再检查。
+
+第 2 步：创建虚拟环境
+- 进入项目目录：cd <解压目录>\UnipusAI-Helper-main
+- 执行：py -m venv .venv（无 py 命令则用 python -m venv .venv）
+
+第 3 步：安装依赖
+- 执行：.venv\Scripts\python.exe -m pip install -r requirements.txt
+- 若下载慢或失败，加国内镜像源重试：
+  .venv\Scripts\python.exe -m pip install -r requirements.txt -i https://mirrors.ustc.edu.cn/pypi/simple/
+
+第 4 步：放置 Whisper 模型（关键，避免联网下载失败）
+- 把 whisper_model\base.pt 复制到 %USERPROFILE%\.cache\whisper\base.pt
+- 如果目标文件已存在则跳过此步。
+
+第 5 步：配置 FFmpeg
+- 把 <解压目录>\UnipusAI-Helper-main\ffmpeg\bin 加入系统环境变量 PATH（用户级即可）。
+- 新开终端执行 ffmpeg -version 确认能显示版本。
+
+第 6 步：运行配置编辑器填写账号和 AI 接口
+- 执行：.venv\Scripts\python.exe config_editor.py
+- 引导用户填写：
+  · username / password：U校园AI版账号密码
+  · api_key / base_url / model：OpenAI 兼容大模型接口
+    （免费推荐：注册 https://siliconflow.cn，base_url=https://api.siliconflow.cn/v1，model=THUDM/GLM-4-9B-0414 等免费模型）
+  · 其余字段保持默认
+- 保存后生成 config.json。
+
+第 7 步：启动主程序
+- 执行：.venv\Scripts\python.exe UnipusAI_Helper.py
+- 程序会检查环境（Edge、FFmpeg、Python）→ 自动打开浏览器登录 → 控制台显示"系统就绪"即成功。
+
+【验收标准】
+- 环境检查全部通过（Edge 浏览器、FFmpeg、Python 均检测到）
+- Whisper 模型加载无报错
+- 配置编辑器 GUI 正常弹出、能保存 config.json
+- 主程序 GUI 正常启动并打开浏览器
+
+【常见问题处理】
+- 提示找不到 FFmpeg：确认 PATH 已加且【新开】终端；或让用户运行 EnvironmentChecker 的自动修复。
+- 环境检查异常但想跳过：UnipusAI_Helper.py 加 --skip-check 参数启动。
+- API 调用失败：检查 api_key / base_url / model 是否填对。
+- 依赖安装报错：确认 Python 是 64 位 3.10+，重试时用国内镜像源。
+
+完成后请把部署结果和遇到的问题汇总告诉我。

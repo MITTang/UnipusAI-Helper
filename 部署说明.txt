@@ -1,0 +1,69 @@
+════════════════════════════════════════════════════════
+  UnipusAI-Helper 完整分享包 · 部署说明
+════════════════════════════════════════════════════════
+
+【本包包含】
+  UnipusAI_Helper.py        主程序（U校园AI版自动化工具）
+  fluent_ui.py              界面组件
+  config_editor.py          配置编辑器（GUI）
+  EnvironmentChecker.py     环境检查
+  AudioRecognizer.py        音频识别（Whisper）
+  requirements.txt          Python 依赖清单
+  whisper_model\base.pt     Whisper 语音识别模型（已预下载，无需联网下载）
+  ffmpeg\bin\               FFmpeg 音视频工具（已包含 ffmpeg.exe / ffprobe.exe）
+
+【你需要自备的】
+  1. Python 3.10 及以上版本
+     - 下载：https://www.python.org/downloads/
+     - 安装时务必勾选 "Add Python to PATH"
+  2. Microsoft Edge 浏览器（系统自带）
+  3. 一个 OpenAI 兼容的大模型接口（API Key）
+     - 免费方案：注册智谱大模型开放平台 BigModel.cn链接：https://www.bigmodel.cn/invite?icode=W7qXkMN%2F%2F%2FA9HWMedXsPtwZ3c5owLmCCcMQXWcJRS8E%3D
+领取免费额度，也可小额充值，获取更强大的模型
+════════════════════════════════════════════════════════
+  部署步骤（新开一个终端窗口执行）
+════════════════════════════════════════════════════════
+
+  1. 进入解压后的项目目录：
+     cd <解压目录>\UnipusAI-Helper-main
+
+  2. 创建虚拟环境：
+     py -m venv .venv
+     （若系统没有 py 命令，改用 python -m venv .venv）
+
+  3. 安装依赖（国内下载慢可加镜像源）：
+     .venv\Scripts\python.exe -m pip install -r requirements.txt -i https://mirrors.ustc.edu.cn/pypi/simple/
+
+  4. 放置 Whisper 模型（重要）：
+     把 whisper_model\base.pt 复制到 %USERPROFILE%\.cache\whisper\base.pt
+     （若目标文件已存在则跳过；不复制的话首次运行会联网下载且容易失败）
+
+  5. 配置 FFmpeg：
+     把 ffmpeg\bin 目录加入系统 PATH 环境变量
+     验证：新开终端执行 ffmpeg -version 能显示版本即成功
+
+  6. 运行配置编辑器，填写账号与 AI 接口：
+     .venv\Scripts\python.exe config_editor.py
+     填写：username / password（U校园AI版账号）
+           api_key / base_url / model（大模型接口）
+     保存后自动生成 config.json
+
+  7. 启动主程序（两种方式任选）：
+     ① 双击【启动工具.bat】（推荐，不用再敲命令）
+     ② 终端执行：.venv\Scripts\python.exe UnipusAI_Helper.py
+     修改配置可双击【启动配置编辑器.bat】
+
+════════════════════════════════════════════════════════
+  常见问题
+════════════════════════════════════════════════════════
+
+  · 找不到 FFmpeg：确认 ffmpeg\bin 已加入 PATH，并【重新打开】终端
+  · 首次做听力/视频题会加载 Whisper，几秒到十几秒属正常
+  · API 调用失败：检查 api_key / base_url / model 三项
+  · 登录后白屏：程序会自动处理，稍等；仍异常则重试登录
+  · 如环境检查一直不过，可加 --skip-check 跳过：
+    .venv\Scripts\python.exe UnipusAI_Helper.py --skip-check
+  · 双击【启动工具.bat】自动使用项目内虚拟环境，无需手动激活
+
+【免责声明】本项目仅供 Python 自动化与学习研究，请遵守课程平台规则，
+不要用于影响教学公平的用途。
